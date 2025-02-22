@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 #Problem 2
 
 #Calculate the Manhattan distance between any two vectors, vec1 and vec2
@@ -26,6 +31,8 @@ return (dist)
 
 Euclidian_dist(vec1,vec2)
 ```{r}
+#Problem #4
+
 library(ggplot2)
 data("mtcars")
 
@@ -37,3 +44,57 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point() +
   labs(title = "Correlation of MPG vs. Weight")
 ```
+```{r}
+#Problem #5
+
+setwd("C:/Users/kathryn.poniatowski/OneDrive - Mass Transport Authority, Flint/UofM/CSC 587/Poniatowski-HW2")
+
+#Import test data into dataframe
+metabolite <- read.csv("metabolite.csv")
+
+#Calculate missing precentage in columns
+missing_percentage <- colMeans(is.na(metabolite))
+
+#Drop columns with over 75% missing
+metabolite_columns <- missing_percentage <= 0.75
+
+#Assign columns to amended dataframe
+metabolite_amended <- metabolite[, metabolite_columns]
+
+# Replace missing values in remaining columns with the median of the column
+metabolite_amended <- metabolite_amended
+for (col in colnames(metabolite_amended)) {
+  # Calculate the median excluding NA values
+  median_value <- median(metabolite_amended[[col]], na.rm = TRUE)
+  
+  # Replace NA values with the median
+  metabolite_amended[[col]][is.na(metabolite_amended[[col]])] <- median_value
+}
+
+head(metabolite_amended)
+```
+```{r}
+library(ggplot2)
+library(stats)
+
+# Exclude non-numeric columns from the dataframe
+numeric_data <- metabolite_amended[sapply(metabolite_amended, is.numeric)]
+
+# Perform PCA on the numeric data (excluding the Label column if it exists)
+pca <- prcomp(numeric_data, scale. = TRUE)
+
+# Get the first two principal components (PC1, PC2)
+pca_data <- as.data.frame(pca$x[, 1:2])
+
+# Add the 'Label' column from the original dataframe to the PCA data
+pca_data$Label <- metabolite_amended$Label
+
+# Plotting the scatter plot of PC1 vs PC2, colored by 'Label'
+ggplot(pca_data, aes(x = PC1, y = PC2, color = Label)) +
+  geom_point() +
+  labs(title = "Metabolite PCA Scatter Plot") +
+  scale_color_manual(values = c("Group1" = "blue", "Group2" = "red"))
+
+```
+
+
