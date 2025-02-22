@@ -25,3 +25,15 @@ return (dist)
 }
 
 Euclidian_dist(vec1,vec2)
+```{r}
+library(ggplot2)
+data("mtcars")
+
+#Calculate correlation between mpg and wt
+cor_mpg_wt <- cor(mtcars$mpg, mtcars$wt)
+
+#Plot correlation onto scatter plot
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  labs(title = "Correlation of MPG vs. Weight")
+```
