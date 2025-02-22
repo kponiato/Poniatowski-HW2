@@ -1,0 +1,27 @@
+#Problem 2
+
+#Calculate the Manhattan distance between any two vectors, vec1 and vec2
+
+#Assign vectors, fill with any two vectors
+#vec1 <- c(1,2,3,4)
+#vec2 <- c(2,3,4,5)
+
+Manhattan_dist <- function(vec1, vec2){
+dist <- sum(abs(vec1 - vec2))
+return (dist)
+}
+
+Manhattan_dist(vec1,vec2)
+
+#Calculate the Euclidian distance between any two vectors, vec1 and vec2
+
+#Assign vectors, fill with any two vectors
+#vec1 <- c(1,2,3,4)
+#vec2 <- c(2,3,4,5)
+
+Euclidian_dist <- function(vec1, vec2){
+dist <- sqrt(sum((vec1 - vec2)^2))
+return (dist)
+}
+
+Euclidian_dist(vec1,vec2)
